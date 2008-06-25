@@ -1,3 +1,4 @@
+// tumblrBadge by Robert Nyman, http://www.robertnyman.com/, http://code.google.com/p/tumblrbadge/
 (function () {
 	// User settings
 	var settings = {
