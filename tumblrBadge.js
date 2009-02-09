@@ -1,5 +1,5 @@
 // tumblrBadge by Robert Nyman, http://www.robertnyman.com/, http://code.google.com/p/tumblrbadge/
-(function () {
+var tumblrBadge = function () {
 	// User settings
 	var settings = {
 		userName : "robertnyman", // Your Tumblr user name
@@ -16,7 +16,7 @@
 	if (head && badgeContainer) {
 		var badgeJSON = document.createElement("script");
 		badgeJSON.type = "text/javascript";
-		badgeJSON.src = "http://" + settings.userName + ".tumblr.com/api/read/json?num=" + settings.itemsToShow;
+		badgeJSON.src = "http://" + settings.userName + ".tumblr.com/api/read/json?callback=tumblrBadge.listItems&num=" + settings.itemsToShow;
 		head.appendChild(badgeJSON);
 		
 		var wait = setTimeout(function () {
@@ -25,9 +25,9 @@
 			badgeJSON = null;
 		}, settings.timeToWait);
 		
-		badgeJSON.onload = function () {
-			var posts = tumblr_api_read.posts;
-			var list = document.createElement("ul"), 
+		listItems = function (json) {
+			var posts = json.posts,
+				list = document.createElement("ul"), 
 				post, 
 				listItem, 
 				text, 
@@ -83,6 +83,10 @@
 			// Apply list to container element
 			badgeContainer.innerHTML = "";
 			badgeContainer.appendChild(list);
-		}
+		};
+		
+		return {
+			listItems : listItems
+		};
 	}
-}());
+}();
